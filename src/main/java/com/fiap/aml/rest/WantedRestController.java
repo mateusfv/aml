@@ -1,7 +1,6 @@
 package com.fiap.aml.rest;
 
 import com.fiap.aml.dao.WantedDAO;
-import com.fiap.aml.dao.WantedDAOImpl;
 import com.fiap.aml.entity.Wanted;
 import org.springframework.web.bind.annotation.*;
 

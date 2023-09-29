@@ -2,15 +2,15 @@ package com.fiap.aml.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Arrays;
-import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="wanted")
 public class Wanted {
 
-    // fields
+    // Fields
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
@@ -22,50 +22,26 @@ public class Wanted {
     @Column(name="sex")
     private String sex;
 
-    @Column(name="race")
-    private String race;
-
-    @Column(name="alternative_names")
-    private List<String> alternativeNames;
-
-    @Column(name="hair_color")
-    private String hairColor;
-
-    @Column(name="eye_color")
-    private String eyeColor;
+//    @Column(name="race")
+//    private String race;
+//
+//    @Column(name="hair_color")
+//    private String hairColor;
+//
+//    @Column(name="eye_color")
+//    private String eyeColor;
 
     @Column(name="date_of_birth")
-    private Date dateOfBirth;
+    private String dateOfBirth;
 
     @Column(name="age_range")
     private String ageRange;
-
-    @Column(name="dates_of_birth_declared")
-    private List<String> datesOfBirthDeclared;
 
     @Column(name="place_of_birth")
     private String placeOfBirth;
 
     @Column(name="country_of_birth")
     private String countryOfBirth;
-
-    @Column(name="charges")
-    private List<String> charges;
-
-    @Column(name="nationalities")
-    private List<String> nationalities;
-
-    @Column(name="languages_spoken")
-    private List<String> languagesSpoken;
-
-    @Column(name="occupations")
-    private List<String> occupations;
-
-    @Column(name="possible_locations")
-    private List<String> possibleLocations;
-
-    @Column(name="distinguishing_marks")
-    private List<String> distinguishingMarks;
 
     @Column(name="fbi_id")
     private String fbiId;
@@ -82,49 +58,76 @@ public class Wanted {
     @Column(name="ncic")
     private String ncic;
 
-    @Column(name="suspects")
-    private List<String> suspects;
-
-    @Column(name="details")
-    private List<String> details;
-
     @Column(name="image_path")
     private String imagePath;
 
-    // constructors
+    @OneToMany(mappedBy = "wanted", cascade = CascadeType.ALL)
+    private List<Charge> charges;
+
+    @OneToMany(mappedBy = "wanted", cascade = CascadeType.ALL)
+    private List<DateOfBirthDeclared> datesOfBirthDeclared;
+
+    @OneToMany(mappedBy = "wanted", cascade = CascadeType.ALL)
+    private List<AlternativeName> alternativeNames;
+
+    @OneToMany(mappedBy = "wanted", cascade = CascadeType.ALL)
+    private List<Occupation> occupations;
+
+    @OneToMany(mappedBy = "wanted", cascade = CascadeType.ALL)
+    private List<Detail> details;
+
+    @OneToMany(mappedBy = "wanted", cascade = CascadeType.ALL)
+    private List<PossibleLocation> possibleLocations;
+
+    @ManyToMany
+    @JoinTable(
+            name = "wanted_nationality",
+            joinColumns = @JoinColumn(name = "wanted_id"),
+            inverseJoinColumns = @JoinColumn(name = "nationality_id")
+    )
+    private Set<Nationality> nationalities = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "wanted_language_spoken",
+            joinColumns = @JoinColumn(name = "wanted_id"),
+            inverseJoinColumns = @JoinColumn(name = "language_spoken_id")
+    )
+    private Set<LanguageSpoken> languagesSpoken = new HashSet<>();
+
+    @OneToMany(mappedBy = "wanted", cascade = CascadeType.ALL)
+    private List<IdentityNumberUsed> identityNumbersUsed;
+
+    // Constructors
     public Wanted() {
 
     }
 
-    public Wanted(String fullName, String sex, String race, List<String> alternativeNames, String hairColor, String eyeColor, Date dateOfBirth, String ageRange, List<String> datesOfBirthDeclared, String placeOfBirth, String countryOfBirth, List<String> charges, List<String> nationalities, List<String> languagesSpoken, List<String> occupations, List<String> possibleLocations, List<String> distinguishingMarks, String fbiId, String fbiUrl, String interpolId, String interpolUrl, String ncic, List<String> suspects, List<String> details, String imagePath) {
+    public Wanted(String fullName, String sex, String dateOfBirth, String ageRange, String placeOfBirth, String countryOfBirth, String fbiId, String fbiUrl, String interpolId, String interpolUrl, String ncic, String imagePath, List<Charge> charges, List<DateOfBirthDeclared> datesOfBirthDeclared, List<AlternativeName> alternativeNames, List<Occupation> occupations, List<Detail> details, List<PossibleLocation> possibleLocations, Set<Nationality> nationalities, Set<LanguageSpoken> languagesSpoken, List<IdentityNumberUsed> identityNumbersUsed) {
         this.fullName = fullName;
         this.sex = sex;
-        this.race = race;
-        this.alternativeNames = alternativeNames;
-        this.hairColor = hairColor;
-        this.eyeColor = eyeColor;
         this.dateOfBirth = dateOfBirth;
         this.ageRange = ageRange;
-        this.datesOfBirthDeclared = datesOfBirthDeclared;
         this.placeOfBirth = placeOfBirth;
         this.countryOfBirth = countryOfBirth;
-        this.charges = charges;
-        this.nationalities = nationalities;
-        this.languagesSpoken = languagesSpoken;
-        this.occupations = occupations;
-        this.possibleLocations = possibleLocations;
-        this.distinguishingMarks = distinguishingMarks;
         this.fbiId = fbiId;
         this.fbiUrl = fbiUrl;
         this.interpolId = interpolId;
         this.interpolUrl = interpolUrl;
         this.ncic = ncic;
-        this.suspects = suspects;
-        this.details = details;
         this.imagePath = imagePath;
+        this.charges = charges;
+        this.datesOfBirthDeclared = datesOfBirthDeclared;
+        this.alternativeNames = alternativeNames;
+        this.occupations = occupations;
+        this.details = details;
+        this.possibleLocations = possibleLocations;
+        this.nationalities = nationalities;
+        this.languagesSpoken = languagesSpoken;
+        this.identityNumbersUsed = identityNumbersUsed;
     }
 
-    // getters & setters
+    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -149,43 +152,11 @@ public class Wanted {
         this.sex = sex;
     }
 
-    public String getRace() {
-        return race;
-    }
-
-    public void setRace(String race) {
-        this.race = race;
-    }
-
-    public List<String> getAlternativeNames() {
-        return alternativeNames;
-    }
-
-    public void setAlternativeNames(List<String> alternativeNames) {
-        this.alternativeNames = alternativeNames;
-    }
-
-    public String getHairColor() {
-        return hairColor;
-    }
-
-    public void setHairColor(String hairColor) {
-        this.hairColor = hairColor;
-    }
-
-    public String getEyeColor() {
-        return eyeColor;
-    }
-
-    public void setEyeColor(String eyeColor) {
-        this.eyeColor = eyeColor;
-    }
-
-    public Date getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -195,14 +166,6 @@ public class Wanted {
 
     public void setAgeRange(String ageRange) {
         this.ageRange = ageRange;
-    }
-
-    public List<String> getDatesOfBirthDeclared() {
-        return datesOfBirthDeclared;
-    }
-
-    public void setDatesOfBirthDeclared(List<String> datesOfBirthDeclared) {
-        this.datesOfBirthDeclared = datesOfBirthDeclared;
     }
 
     public String getPlaceOfBirth() {
@@ -219,54 +182,6 @@ public class Wanted {
 
     public void setCountryOfBirth(String countryOfBirth) {
         this.countryOfBirth = countryOfBirth;
-    }
-
-    public List<String> getCharges() {
-        return charges;
-    }
-
-    public void setCharges(List<String> charges) {
-        this.charges = charges;
-    }
-
-    public List<String> getNationalities() {
-        return nationalities;
-    }
-
-    public void setNationalities(List<String> nationalities) {
-        this.nationalities = nationalities;
-    }
-
-    public List<String> getLanguagesSpoken() {
-        return languagesSpoken;
-    }
-
-    public void setLanguagesSpoken(List<String> languagesSpoken) {
-        this.languagesSpoken = languagesSpoken;
-    }
-
-    public List<String> getOccupations() {
-        return occupations;
-    }
-
-    public void setOccupations(List<String> occupations) {
-        this.occupations = occupations;
-    }
-
-    public List<String> getPossibleLocations() {
-        return possibleLocations;
-    }
-
-    public void setPossibleLocations(List<String> possibleLocations) {
-        this.possibleLocations = possibleLocations;
-    }
-
-    public List<String> getDistinguishingMarks() {
-        return distinguishingMarks;
-    }
-
-    public void setDistinguishingMarks(List<String> distinguishingMarks) {
-        this.distinguishingMarks = distinguishingMarks;
     }
 
     public String getFbiId() {
@@ -309,61 +224,112 @@ public class Wanted {
         this.ncic = ncic;
     }
 
-    public List<String> getSuspects() {
-        return suspects;
-    }
-
-    public void setSuspects(List<String> suspects) {
-        this.suspects = suspects;
-    }
-
-    public List<String> getDetails() {
-        return details;
-    }
-
-    public void setDetails(List<String> details) {
-        this.details = details;
-    }
-
     public String getImagePath() {
         return imagePath;
     }
 
-    public void setImage(String imagePath) {
+    public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
 
-    // toString()
+    public List<Charge> getCharges() {
+        return charges;
+    }
 
+    public void setCharges(List<Charge> charges) {
+        this.charges = charges;
+    }
+
+    public List<DateOfBirthDeclared> getDatesOfBirthDeclared() {
+        return datesOfBirthDeclared;
+    }
+
+    public void setDatesOfBirthDeclared(List<DateOfBirthDeclared> datesOfBirthDeclared) {
+        this.datesOfBirthDeclared = datesOfBirthDeclared;
+    }
+
+    public List<AlternativeName> getAlternativeNames() {
+        return alternativeNames;
+    }
+
+    public void setAlternativeNames(List<AlternativeName> alternativeNames) {
+        this.alternativeNames = alternativeNames;
+    }
+
+    public List<Occupation> getOccupations() {
+        return occupations;
+    }
+
+    public void setOccupations(List<Occupation> occupations) {
+        this.occupations = occupations;
+    }
+
+    public List<Detail> getDetails() {
+        return details;
+    }
+
+    public void setDetails(List<Detail> details) {
+        this.details = details;
+    }
+
+    public List<PossibleLocation> getPossibleLocations() {
+        return possibleLocations;
+    }
+
+    public void setPossibleLocations(List<PossibleLocation> possibleLocations) {
+        this.possibleLocations = possibleLocations;
+    }
+
+    public Set<Nationality> getNationalities() {
+        return nationalities;
+    }
+
+    public void setNationalities(Set<Nationality> nationalities) {
+        this.nationalities = nationalities;
+    }
+
+    public Set<LanguageSpoken> getLanguagesSpoken() {
+        return languagesSpoken;
+    }
+
+    public void setLanguagesSpoken(Set<LanguageSpoken> languagesSpoken) {
+        this.languagesSpoken = languagesSpoken;
+    }
+
+    public List<IdentityNumberUsed> getIdentityNumbersUsed() {
+        return identityNumbersUsed;
+    }
+
+    public void setIdentityNumbersUsed(List<IdentityNumberUsed> identityNumbersUsed) {
+        this.identityNumbersUsed = identityNumbersUsed;
+    }
+
+    // toString()
     @Override
     public String toString() {
         return "Wanted{" +
                 "id=" + id +
                 ", fullName='" + fullName + '\'' +
                 ", sex='" + sex + '\'' +
-                ", race='" + race + '\'' +
-                ", alternativeNames=" + alternativeNames +
-                ", hairColor='" + hairColor + '\'' +
-                ", eyeColor='" + eyeColor + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
                 ", ageRange='" + ageRange + '\'' +
-                ", datesOfBirthDeclared=" + datesOfBirthDeclared +
                 ", placeOfBirth='" + placeOfBirth + '\'' +
                 ", countryOfBirth='" + countryOfBirth + '\'' +
-                ", charges=" + charges +
-                ", nationalities=" + nationalities +
-                ", languagesSpoken=" + languagesSpoken +
-                ", occupations=" + occupations +
-                ", possibleLocations=" + possibleLocations +
-                ", distinguishingMarks=" + distinguishingMarks +
                 ", fbiId='" + fbiId + '\'' +
                 ", fbiUrl='" + fbiUrl + '\'' +
                 ", interpolId='" + interpolId + '\'' +
                 ", interpolUrl='" + interpolUrl + '\'' +
                 ", ncic='" + ncic + '\'' +
-                ", suspects=" + suspects +
+                ", imagePath='" + imagePath + '\'' +
+                ", charges=" + charges +
+                ", datesOfBirthDeclared=" + datesOfBirthDeclared +
+                ", alternativeNames=" + alternativeNames +
+                ", occupations=" + occupations +
                 ", details=" + details +
-                ", image=" + imagePath +
+                ", possibleLocations=" + possibleLocations +
+                ", nationalities=" + nationalities +
+                ", languagesSpoken=" + languagesSpoken +
+                ", identityNumbersUsed=" + identityNumbersUsed +
                 '}';
     }
 }
