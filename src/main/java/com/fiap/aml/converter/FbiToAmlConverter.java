@@ -36,7 +36,7 @@ public class FbiToAmlConverter {
         this.tempLanguagesSpoken = new HashSet<>();
 
         if (fbiWanted.getTitle() != null) {
-            this.wanted.setFullName(fbiWanted.getTitle().toUpperCase().trim());
+            this.wanted.setNameTitle(fbiWanted.getTitle().toUpperCase().trim());
         }
 
         if (fbiWanted.getSex() != null && !fbiWanted.getSex().isEmpty()) {
@@ -86,17 +86,17 @@ public class FbiToAmlConverter {
             this.wanted.setAlternativeNames(tempAliases);
         }
 
-//        if (fbiWanted.getHair() != null) {
-//            this.wanted.setHairColor(fbiWanted.getHair().trim().toLowerCase());
-//        }
-//
-//        if (fbiWanted.getEyes() != null) {
-//            this.wanted.setEyeColor(fbiWanted.getEyes().trim().toLowerCase());
-//        }
-//
-//        if (fbiWanted.getRace() != null) {
-//            this.wanted.setRace(fbiWanted.getRace().trim().toLowerCase());
-//        }
+        if (fbiWanted.getHair() != null) {
+            this.wanted.setHairColor(fbiWanted.getHair().trim().toLowerCase());
+        }
+
+        if (fbiWanted.getEyes() != null) {
+            this.wanted.setEyeColor(fbiWanted.getEyes().trim().toLowerCase());
+        }
+
+        if (fbiWanted.getRace() != null) {
+            this.wanted.setRace(fbiWanted.getRace().trim().toLowerCase());
+        }
 
 
         Year currentYear = Year.now();
@@ -127,11 +127,6 @@ public class FbiToAmlConverter {
         }
 
         this.wanted.setPlaceOfBirth(fbiWanted.getPlaceOfBirth());
-
-
-        if (fbiWanted.getPlaceOfBirth() != null) {
-            this.wanted.setCountryOfBirth(fbiWanted.getPlaceOfBirth());
-        }
 
         //todo ???
         if (fbiWanted.getDescription() != null) {

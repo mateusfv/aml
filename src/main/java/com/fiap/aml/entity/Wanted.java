@@ -16,20 +16,20 @@ public class Wanted {
     @Column(name="id")
     private int id;
 
-    @Column(name="full_name")
-    private String fullName;
+    @Column(name="name_title")
+    private String nameTitle;
 
     @Column(name="sex")
     private String sex;
 
-//    @Column(name="race")
-//    private String race;
-//
-//    @Column(name="hair_color")
-//    private String hairColor;
-//
-//    @Column(name="eye_color")
-//    private String eyeColor;
+    @Column(name="race")
+    private String race;
+
+    @Column(name="hair_color")
+    private String hairColor;
+
+    @Column(name="eye_color")
+    private String eyeColor;
 
     @Column(name="date_of_birth")
     private String dateOfBirth;
@@ -39,9 +39,6 @@ public class Wanted {
 
     @Column(name="place_of_birth")
     private String placeOfBirth;
-
-    @Column(name="country_of_birth")
-    private String countryOfBirth;
 
     @Column(name="fbi_id")
     private String fbiId;
@@ -103,13 +100,15 @@ public class Wanted {
 
     }
 
-    public Wanted(String fullName, String sex, String dateOfBirth, String ageRange, String placeOfBirth, String countryOfBirth, String fbiId, String fbiUrl, String interpolId, String interpolUrl, String ncic, String imagePath, List<Charge> charges, List<DateOfBirthDeclared> datesOfBirthDeclared, List<AlternativeName> alternativeNames, List<Occupation> occupations, List<Detail> details, List<PossibleLocation> possibleLocations, Set<Nationality> nationalities, Set<LanguageSpoken> languagesSpoken, List<IdentityNumberUsed> identityNumbersUsed) {
-        this.fullName = fullName;
+    public Wanted(String nameTitle, String sex, String race, String hairColor, String eyeColor, String dateOfBirth, String ageRange, String placeOfBirth, String fbiId, String fbiUrl, String interpolId, String interpolUrl, String ncic, String imagePath, List<Charge> charges, List<DateOfBirthDeclared> datesOfBirthDeclared, List<AlternativeName> alternativeNames, List<Occupation> occupations, List<Detail> details, List<PossibleLocation> possibleLocations, Set<Nationality> nationalities, Set<LanguageSpoken> languagesSpoken, List<IdentityNumberUsed> identityNumbersUsed) {
+        this.nameTitle = nameTitle;
         this.sex = sex;
+        this.race = race;
+        this.hairColor = hairColor;
+        this.eyeColor = eyeColor;
         this.dateOfBirth = dateOfBirth;
         this.ageRange = ageRange;
         this.placeOfBirth = placeOfBirth;
-        this.countryOfBirth = countryOfBirth;
         this.fbiId = fbiId;
         this.fbiUrl = fbiUrl;
         this.interpolId = interpolId;
@@ -128,6 +127,8 @@ public class Wanted {
     }
 
     // Getters and Setters
+
+
     public int getId() {
         return id;
     }
@@ -136,12 +137,12 @@ public class Wanted {
         this.id = id;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getNameTitle() {
+        return nameTitle;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setNameTitle(String nameTitle) {
+        this.nameTitle = nameTitle;
     }
 
     public String getSex() {
@@ -150,6 +151,30 @@ public class Wanted {
 
     public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    public String getRace() {
+        return race;
+    }
+
+    public void setRace(String race) {
+        this.race = race;
+    }
+
+    public String getHairColor() {
+        return hairColor;
+    }
+
+    public void setHairColor(String hairColor) {
+        this.hairColor = hairColor;
+    }
+
+    public String getEyeColor() {
+        return eyeColor;
+    }
+
+    public void setEyeColor(String eyeColor) {
+        this.eyeColor = eyeColor;
     }
 
     public String getDateOfBirth() {
@@ -174,14 +199,6 @@ public class Wanted {
 
     public void setPlaceOfBirth(String placeOfBirth) {
         this.placeOfBirth = placeOfBirth;
-    }
-
-    public String getCountryOfBirth() {
-        return countryOfBirth;
-    }
-
-    public void setCountryOfBirth(String countryOfBirth) {
-        this.countryOfBirth = countryOfBirth;
     }
 
     public String getFbiId() {
@@ -305,16 +322,19 @@ public class Wanted {
     }
 
     // toString()
+
     @Override
     public String toString() {
         return "Wanted{" +
                 "id=" + id +
-                ", fullName='" + fullName + '\'' +
+                ", nameTitle='" + nameTitle + '\'' +
                 ", sex='" + sex + '\'' +
+                ", race='" + race + '\'' +
+                ", hairColor='" + hairColor + '\'' +
+                ", eyeColor='" + eyeColor + '\'' +
                 ", dateOfBirth='" + dateOfBirth + '\'' +
                 ", ageRange='" + ageRange + '\'' +
                 ", placeOfBirth='" + placeOfBirth + '\'' +
-                ", countryOfBirth='" + countryOfBirth + '\'' +
                 ", fbiId='" + fbiId + '\'' +
                 ", fbiUrl='" + fbiUrl + '\'' +
                 ", interpolId='" + interpolId + '\'' +
