@@ -12,7 +12,7 @@ public class Charge {
     @Column(name="id")
     private int id;
 
-    @Column(name="charge_description", columnDefinition="TEXT") //ToDo change to CLOB
+    @Column(name="charge_description", columnDefinition="CLOB") //Change to "TEXT" for MySQL
     private String chargeDescription;
 
     @Column(name="issuing_country")

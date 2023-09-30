@@ -12,7 +12,7 @@ public class Occupation {
     @Column(name="id")
     private int id;
 
-    @Column(name="detail_description", columnDefinition="TEXT") //ToDo change to CLOB
+    @Column(name="detail_description", columnDefinition="CLOB") //Change to "TEXT" for MySQL
     private String detailDescription;
 
     @ManyToOne
