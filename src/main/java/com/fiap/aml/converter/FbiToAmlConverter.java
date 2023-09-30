@@ -9,31 +9,35 @@ import java.time.Year;
 import java.util.*;
 
 public class FbiToAmlConverter {
+
+    // Fields
     private FbiWanted fbiWanted;
     private Wanted wanted;
-    private List<AlternativeName> tempAliases;
-    private List<DateOfBirthDeclared> tempDatesOfBirthDeclared;
-    private List<Charge> tempCharges;
-    private Set<Nationality> tempNationalities;
     private NationalityDAO nationalityDAO;
-    private Set<LanguageSpoken> tempLanguagesSpoken;
     private LanguageSpokenDAO languageSpokenDAO;
-    private List<Occupation> tempOccupations;
-    private List<PossibleLocation> tempPossibleLocations;
-    private List<Detail> tempDetails;
+    private List<AlternativeName> aliases;
+    private List<DateOfBirthDeclared> datesOfBirthDeclared;
+    private List<Charge> charges;
+    private Set<Nationality> nationalities;
+    private Set<LanguageSpoken> languagesSpoken;
+    private List<Occupation> occupations;
+    private List<PossibleLocation> possibleLocations;
+    private List<Detail> details;
 
+    // Constructor
     public FbiToAmlConverter(FbiWanted fbiWanted, NationalityDAO nationalityDAO, LanguageSpokenDAO languageSpokenDAO) {
         this.fbiWanted = fbiWanted;
         this.nationalityDAO = nationalityDAO;
         this.languageSpokenDAO = languageSpokenDAO;
     }
 
+    // Converter
     public Wanted getWanted() {
         this.wanted = new Wanted();
-        this.tempAliases = new ArrayList<>();
-        this.tempDatesOfBirthDeclared = new ArrayList<>();
-        this.tempNationalities = new HashSet<>();
-        this.tempLanguagesSpoken = new HashSet<>();
+        this.aliases = new ArrayList<>();
+        this.datesOfBirthDeclared = new ArrayList<>();
+        this.nationalities = new HashSet<>();
+        this.languagesSpoken = new HashSet<>();
 
         if (fbiWanted.getTitle() != null) {
             this.wanted.setNameTitle(fbiWanted.getTitle().toUpperCase().trim());
@@ -43,47 +47,32 @@ public class FbiToAmlConverter {
             this.wanted.setSex(fbiWanted.getSex().trim().substring(0, 1).toUpperCase());
         }
 
-//        DEPRECATED
-//        if (fbiWanted.getLegatNames() != null) {
-//            tempList = new ArrayList<>();
-//
-//            if (this.wanted.getAlternativeNames() != null) {
-//                tempList = new ArrayList<>(this.wanted.getAlternativeNames());
-//            }
-//
-//            for (String legatName : fbiWanted.getLegatNames()) {
-//                tempList.add(legatName.trim().toUpperCase());
-//            }
-//
-//            this.wanted.setAlternativeNames(tempList);
-//        }
-
         if (fbiWanted.getLegatNames() != null) {
-            tempAliases = new ArrayList<>();
+            aliases = new ArrayList<>();
 
             if (this.wanted.getAlternativeNames() != null) {
-                tempAliases = new ArrayList<>(this.wanted.getAlternativeNames());
+                aliases = new ArrayList<>(this.wanted.getAlternativeNames());
             }
 
             for (String legatName : fbiWanted.getLegatNames()) {
                 AlternativeName alias = new AlternativeName(legatName, this.wanted);
-                tempAliases.add(alias);
+                aliases.add(alias);
             }
-            this.wanted.setAlternativeNames(tempAliases);
+            this.wanted.setAlternativeNames(aliases);
         }
 
         if (fbiWanted.getAliases() != null) {
-            tempAliases = new ArrayList<>();
+            aliases = new ArrayList<>();
 
             if (this.wanted.getAlternativeNames() != null) {
-                tempAliases = new ArrayList<>(this.wanted.getAlternativeNames());
+                aliases = new ArrayList<>(this.wanted.getAlternativeNames());
             }
 
             for (String fbiAlias : fbiWanted.getAliases()) {
                 AlternativeName alias = new AlternativeName(fbiAlias, this.wanted);
-                tempAliases.add(alias);
+                aliases.add(alias);
             }
-            this.wanted.setAlternativeNames(tempAliases);
+            this.wanted.setAlternativeNames(aliases);
         }
 
         if (fbiWanted.getHair() != null) {
@@ -112,55 +101,55 @@ public class FbiToAmlConverter {
         }
 
         if (fbiWanted.getDatesOfBirthUsed() != null) {
-            tempDatesOfBirthDeclared = new ArrayList<>();
+            datesOfBirthDeclared = new ArrayList<>();
 
             if (this.wanted.getDatesOfBirthDeclared() != null) {
-                tempDatesOfBirthDeclared = new ArrayList<>(this.wanted.getDatesOfBirthDeclared());
+                datesOfBirthDeclared = new ArrayList<>(this.wanted.getDatesOfBirthDeclared());
             }
 
             for (String date : fbiWanted.getDatesOfBirthUsed()) {
                 DateOfBirthDeclared dateOfBirthDeclared = new DateOfBirthDeclared(date, this.wanted);
-                tempDatesOfBirthDeclared.add(dateOfBirthDeclared);
+                datesOfBirthDeclared.add(dateOfBirthDeclared);
             }
 
-            this.wanted.setDatesOfBirthDeclared(tempDatesOfBirthDeclared);
+            this.wanted.setDatesOfBirthDeclared(datesOfBirthDeclared);
         }
 
         this.wanted.setPlaceOfBirth(fbiWanted.getPlaceOfBirth());
 
         //todo ???
         if (fbiWanted.getDescription() != null) {
-            tempCharges = new ArrayList<>();
+            charges = new ArrayList<>();
 
             if (this.wanted.getCharges() != null) {
-                tempCharges = new ArrayList<>(this.wanted.getCharges());
+                charges = new ArrayList<>(this.wanted.getCharges());
             }
 
             Charge charge = new Charge(fbiWanted.getDescription(), "US", this.wanted);
-            tempCharges.add(charge);
-            this.wanted.setCharges(tempCharges);
+            charges.add(charge);
+            this.wanted.setCharges(charges);
         }
 
         if (fbiWanted.getNationality() != null) {
-            tempNationalities = new HashSet<>();
+            nationalities = new HashSet<>();
 
             if (this.wanted.getNationalities() != null) {
-                tempNationalities = new HashSet<>(this.wanted.getNationalities());
+                nationalities = new HashSet<>(this.wanted.getNationalities());
             }
 
             Nationality nationality = nationalityDAO.findByGentilic(fbiWanted.getNationality());
 
-            tempNationalities.add(nationality);
+            nationalities.add(nationality);
 
-            this.wanted.setNationalities(tempNationalities);
+            this.wanted.setNationalities(nationalities);
         }
 
         if (fbiWanted.getLanguages() != null) {
-            tempLanguagesSpoken = new HashSet<>();
+            languagesSpoken = new HashSet<>();
             List<String> languageStrings = new ArrayList<>();
 
             if (this.wanted.getLanguagesSpoken() != null) {
-                tempLanguagesSpoken = new HashSet<>(this.wanted.getLanguagesSpoken());
+                languagesSpoken = new HashSet<>(this.wanted.getLanguagesSpoken());
             }
 
             for (String string : fbiWanted.getLanguages()) {
@@ -193,86 +182,86 @@ public class FbiToAmlConverter {
                 LanguageSpoken languageSpoken = languageSpokenDAO.findByName(language);
 
                 if (languageSpoken != null) {
-                    tempLanguagesSpoken.add(languageSpoken);
+                    languagesSpoken.add(languageSpoken);
                 }
             }
 
-            this.wanted.setLanguagesSpoken(tempLanguagesSpoken);
+            this.wanted.setLanguagesSpoken(languagesSpoken);
         }
 
         if (fbiWanted.getOccupations() != null) {
-            tempOccupations = new ArrayList<>();
+            occupations = new ArrayList<>();
 
             if (this.wanted.getOccupations() != null) {
-                tempOccupations = new ArrayList<>(this.wanted.getOccupations());
+                occupations = new ArrayList<>(this.wanted.getOccupations());
             }
 
             for (String occupation : fbiWanted.getOccupations()) {
                 Occupation tempOccupation = new Occupation(occupation, this.wanted);
-                tempOccupations.add(tempOccupation);
+                occupations.add(tempOccupation);
             }
 
-            this.wanted.setOccupations(tempOccupations);
+            this.wanted.setOccupations(occupations);
         }
 
         if (fbiWanted.getPossibleCountries() != null) {
-            tempPossibleLocations = new ArrayList<>();
+            possibleLocations = new ArrayList<>();
 
             if (this.wanted.getPossibleLocations() != null) {
-                tempPossibleLocations = new ArrayList<>(this.wanted.getPossibleLocations());
+                possibleLocations = new ArrayList<>(this.wanted.getPossibleLocations());
             }
 
             for (String location : fbiWanted.getPossibleCountries()) {
                 PossibleLocation tempLocation = new PossibleLocation(location, this.wanted);
-                tempPossibleLocations.add(tempLocation);
+                possibleLocations.add(tempLocation);
             }
 
-            this.wanted.setPossibleLocations(tempPossibleLocations);
+            this.wanted.setPossibleLocations(possibleLocations);
         }
 
         if (fbiWanted.getPossibleStates() != null) {
-            tempPossibleLocations = new ArrayList<>();
+            possibleLocations = new ArrayList<>();
 
             if (this.wanted.getPossibleLocations() != null) {
-                tempPossibleLocations = new ArrayList<>(this.wanted.getPossibleLocations());
+                possibleLocations = new ArrayList<>(this.wanted.getPossibleLocations());
             }
 
             for (String location : fbiWanted.getPossibleStates()) {
                 PossibleLocation tempLocation = new PossibleLocation(location, this.wanted);
-                tempPossibleLocations.add(tempLocation);
+                possibleLocations.add(tempLocation);
             }
 
-            this.wanted.setPossibleLocations(tempPossibleLocations);
+            this.wanted.setPossibleLocations(possibleLocations);
         }
 
         if (fbiWanted.getLocations() != null) {
-            tempPossibleLocations = new ArrayList<>();
+            possibleLocations = new ArrayList<>();
 
             if (this.wanted.getPossibleLocations() != null) {
-                tempPossibleLocations = new ArrayList<>(this.wanted.getPossibleLocations());
+                possibleLocations = new ArrayList<>(this.wanted.getPossibleLocations());
             }
 
             for (String location : fbiWanted.getLocations()) {
                 PossibleLocation tempLocation = new PossibleLocation(location, this.wanted);
-                tempPossibleLocations.add(tempLocation);
+                possibleLocations.add(tempLocation);
             }
 
-            this.wanted.setPossibleLocations(tempPossibleLocations);
+            this.wanted.setPossibleLocations(possibleLocations);
         }
 
         if (fbiWanted.getFieldOffices() != null) {
-            tempPossibleLocations = new ArrayList<>();
+            possibleLocations = new ArrayList<>();
 
             if (this.wanted.getPossibleLocations() != null) {
-                tempPossibleLocations = new ArrayList<>(this.wanted.getPossibleLocations());
+                possibleLocations = new ArrayList<>(this.wanted.getPossibleLocations());
             }
 
             for (String location : fbiWanted.getFieldOffices()) {
                 PossibleLocation tempLocation = new PossibleLocation(location, this.wanted);
-                tempPossibleLocations.add(tempLocation);
+                possibleLocations.add(tempLocation);
             }
 
-            this.wanted.setPossibleLocations(tempPossibleLocations);
+            this.wanted.setPossibleLocations(possibleLocations);
         }
 
         this.wanted.setFbiId(fbiWanted.getUid());
@@ -282,73 +271,73 @@ public class FbiToAmlConverter {
         this.wanted.setNcic(fbiWanted.getNcic());
 
         if (fbiWanted.getDetails() != null) {
-            tempDetails = new ArrayList<>();
+            details = new ArrayList<>();
 
             if (this.wanted.getDetails() != null) {
-                tempDetails = new ArrayList<>(this.wanted.getDetails());
+                details = new ArrayList<>(this.wanted.getDetails());
             }
 
             Detail detail = new Detail(fbiWanted.getDetails(), this.wanted);
 
-            tempDetails.add(detail);
+            details.add(detail);
 
-            this.wanted.setDetails(tempDetails);
+            this.wanted.setDetails(details);
         }
 
         if (fbiWanted.getCaution() != null) {
-            tempDetails = new ArrayList<>();
+            details = new ArrayList<>();
 
             if (this.wanted.getDetails() != null) {
-                tempDetails = new ArrayList<>(this.wanted.getDetails());
+                details = new ArrayList<>(this.wanted.getDetails());
             }
 
             Detail detail = new Detail(fbiWanted.getCaution(), this.wanted);
 
-            tempDetails.add(detail);
+            details.add(detail);
 
-            this.wanted.setDetails(tempDetails);
+            this.wanted.setDetails(details);
         }
 
         if (fbiWanted.getWarningMessage() != null) {
-            tempDetails = new ArrayList<>();
+            details = new ArrayList<>();
 
             if (this.wanted.getDetails() != null) {
-                tempDetails = new ArrayList<>(this.wanted.getDetails());
+                details = new ArrayList<>(this.wanted.getDetails());
             }
 
             Detail detail = new Detail(fbiWanted.getWarningMessage(), this.wanted);
 
-            tempDetails.add(detail);
+            details.add(detail);
 
-            this.wanted.setDetails(tempDetails);
+            this.wanted.setDetails(details);
         }
 
         if (fbiWanted.getRemarks() != null) {
-            tempDetails = new ArrayList<>();
+            details = new ArrayList<>();
 
             if (this.wanted.getDetails() != null) {
-                tempDetails = new ArrayList<>(this.wanted.getDetails());
+                details = new ArrayList<>(this.wanted.getDetails());
             }
 
             Detail detail = new Detail(fbiWanted.getRemarks(), this.wanted);
 
-            tempDetails.add(detail);
+            details.add(detail);
 
-            this.wanted.setDetails(tempDetails);
+            this.wanted.setDetails(details);
         }
 
         if (fbiWanted.getAdditionalInformation() != null) {
-            tempDetails = new ArrayList<>();
+            details = new ArrayList<>();
 
             if (this.wanted.getDetails() != null) {
-                tempDetails = new ArrayList<>(this.wanted.getDetails());
+                details = new ArrayList<>(this.wanted.getDetails());
             }
 
             Detail detail = new Detail(fbiWanted.getAdditionalInformation(), this.wanted);
 
-            tempDetails.add(detail);
+            details.add(detail);
 
-            this.wanted.setDetails(tempDetails);
+            this.wanted.setDetails(details);
         }
 
         if (!fbiWanted.getImages().isEmpty()) {

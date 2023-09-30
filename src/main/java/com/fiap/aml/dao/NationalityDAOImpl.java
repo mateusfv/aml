@@ -33,4 +33,21 @@ public class NationalityDAOImpl implements NationalityDAO {
             return null;
         }
     }
+
+    @Override
+    public Nationality findByAlpha2(String alpha2Code) {
+        // Create the query and set its parameter
+        TypedQuery<Nationality> query = entityManager.createQuery(
+                "SELECT n FROM Nationality n WHERE n.codeAlpha2 = :codeAlpha2",
+                Nationality.class
+        );
+        query.setParameter("codeAlpha2", alpha2Code);
+
+        // Search the nationality
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
+    }
 }

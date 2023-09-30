@@ -1,13 +1,11 @@
 package com.fiap.aml.service;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fiap.aml.converter.FbiToAmlConverter;
 import com.fiap.aml.dao.LanguageSpokenDAO;
 import com.fiap.aml.dao.NationalityDAO;
 import com.fiap.aml.dao.WantedDAO;
-import com.fiap.aml.dao.WantedDAOImpl;
 import com.fiap.aml.temp.FbiWanted;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;

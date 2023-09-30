@@ -3,6 +3,7 @@ package com.fiap.aml;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fiap.aml.service.FbiApiService;
+import com.fiap.aml.service.InterpolRedNoticeApiService;
 import com.fiap.aml.temp.FbiWanted;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,11 +21,14 @@ public class AmlApplication {
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(AmlApplication.class, args);
 
-		FbiApiService fbiApiService = context.getBean(FbiApiService.class);
+		// Fetch data from FBI Wanted API
+//		FbiApiService fbiApiService = context.getBean(FbiApiService.class);
+//		fbiApiService.fetchDataFromFbiApi();
 
-		List<FbiWanted> apiData = fbiApiService.fetchDataFromFbiApi();
+		// Fetch data from Interpol Red Notice API
+//		InterpolRedNoticeApiService interpolRedNoticeApiService = context.getBean(InterpolRedNoticeApiService.class);
+//		interpolRedNoticeApiService.fetchRedNotices();
 
-		System.out.println(apiData);
 	}
 
 	@Bean

@@ -35,4 +35,22 @@ public class LanguageSpokenDAOImpl implements LanguageSpokenDAO {
             return null;
         }
     }
+
+    @Override
+    public LanguageSpoken findByAlpha3(String alpha3Code) {
+
+        // Create query
+        TypedQuery<LanguageSpoken> query = entityManager.createQuery(
+                "SELECT l FROM LanguageSpoken l WHERE l.alphaId = :alpha3Code",
+                LanguageSpoken.class
+        );
+        query.setParameter("alpha3Code", alpha3Code);
+
+        // Search the language
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
+    }
 }
