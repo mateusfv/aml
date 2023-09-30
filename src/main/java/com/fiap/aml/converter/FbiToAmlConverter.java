@@ -55,10 +55,15 @@ public class FbiToAmlConverter {
             }
 
             for (String legatName : fbiWanted.getLegatNames()) {
-                AlternativeName alias = new AlternativeName(legatName, this.wanted);
-                aliases.add(alias);
+                if ((!legatName.isBlank()) && (!legatName.isEmpty())) {
+                    AlternativeName alias = new AlternativeName(legatName, this.wanted);
+                    aliases.add(alias);
+                }
             }
-            this.wanted.setAlternativeNames(aliases);
+
+            if (!aliases.isEmpty()) {
+                this.wanted.setAlternativeNames(aliases);
+            }
         }
 
         if (fbiWanted.getAliases() != null) {
@@ -69,10 +74,15 @@ public class FbiToAmlConverter {
             }
 
             for (String fbiAlias : fbiWanted.getAliases()) {
-                AlternativeName alias = new AlternativeName(fbiAlias, this.wanted);
-                aliases.add(alias);
+                if ((!fbiAlias.isEmpty()) && (!fbiAlias.isBlank())) {
+                    AlternativeName alias = new AlternativeName(fbiAlias, this.wanted);
+                    aliases.add(alias);
+                }
             }
-            this.wanted.setAlternativeNames(aliases);
+
+            if (!aliases.isEmpty()) {
+                this.wanted.setAlternativeNames(aliases);
+            }
         }
 
         if (fbiWanted.getHair() != null) {
@@ -94,10 +104,8 @@ public class FbiToAmlConverter {
 
         if ((ageMin != null && ageMax != null) && (ageMin > 0 && ageMax > 0)) {
             this.wanted.setDateOfBirth("Circa " + (currentYear.getValue() - ((ageMin + ageMax)/2)));
-            this.wanted.setAgeRange(ageMin + " to " + ageMax);
         } else {
             this.wanted.setDateOfBirth(null);
-            this.wanted.setAgeRange(fbiWanted.getAgeRange());
         }
 
         if (fbiWanted.getDatesOfBirthUsed() != null) {
@@ -108,17 +116,21 @@ public class FbiToAmlConverter {
             }
 
             for (String date : fbiWanted.getDatesOfBirthUsed()) {
-                DateOfBirthDeclared dateOfBirthDeclared = new DateOfBirthDeclared(date, this.wanted);
-                datesOfBirthDeclared.add(dateOfBirthDeclared);
+                if ((!date.isEmpty()) && (!date.isBlank())) {
+                    DateOfBirthDeclared dateOfBirthDeclared = new DateOfBirthDeclared(date, this.wanted);
+                    datesOfBirthDeclared.add(dateOfBirthDeclared);
+                }
             }
 
-            this.wanted.setDatesOfBirthDeclared(datesOfBirthDeclared);
+            if (!datesOfBirthDeclared.isEmpty()) {
+                this.wanted.setDatesOfBirthDeclared(datesOfBirthDeclared);
+            }
         }
 
         this.wanted.setPlaceOfBirth(fbiWanted.getPlaceOfBirth());
 
         //todo ???
-        if (fbiWanted.getDescription() != null) {
+        if ((fbiWanted.getDescription() != null) && (!fbiWanted.getDescription().isBlank())) {
             charges = new ArrayList<>();
 
             if (this.wanted.getCharges() != null) {
@@ -189,7 +201,7 @@ public class FbiToAmlConverter {
             this.wanted.setLanguagesSpoken(languagesSpoken);
         }
 
-        if (fbiWanted.getOccupations() != null) {
+        if ((fbiWanted.getOccupations() != null) && (!fbiWanted.getOccupations().isEmpty())) {
             occupations = new ArrayList<>();
 
             if (this.wanted.getOccupations() != null) {
@@ -197,11 +209,15 @@ public class FbiToAmlConverter {
             }
 
             for (String occupation : fbiWanted.getOccupations()) {
-                Occupation tempOccupation = new Occupation(occupation, this.wanted);
-                occupations.add(tempOccupation);
+                if ((!occupation.isBlank()) && (occupation != null)) {
+                    Occupation tempOccupation = new Occupation(occupation, this.wanted);
+                    occupations.add(tempOccupation);
+                }
             }
 
-            this.wanted.setOccupations(occupations);
+            if (!occupations.isEmpty()) {
+                this.wanted.setOccupations(occupations);
+            }
         }
 
         if (fbiWanted.getPossibleCountries() != null) {
@@ -270,7 +286,7 @@ public class FbiToAmlConverter {
 
         this.wanted.setNcic(fbiWanted.getNcic());
 
-        if (fbiWanted.getDetails() != null) {
+        if ((fbiWanted.getDetails() != null) && (!fbiWanted.getDetails().isBlank())) {
             details = new ArrayList<>();
 
             if (this.wanted.getDetails() != null) {
@@ -284,7 +300,7 @@ public class FbiToAmlConverter {
             this.wanted.setDetails(details);
         }
 
-        if (fbiWanted.getCaution() != null) {
+        if ((fbiWanted.getCaution() != null) && (!fbiWanted.getCaution().isBlank())) {
             details = new ArrayList<>();
 
             if (this.wanted.getDetails() != null) {
@@ -298,7 +314,7 @@ public class FbiToAmlConverter {
             this.wanted.setDetails(details);
         }
 
-        if (fbiWanted.getWarningMessage() != null) {
+        if ((fbiWanted.getWarningMessage() != null) && (!fbiWanted.getWarningMessage().isBlank())) {
             details = new ArrayList<>();
 
             if (this.wanted.getDetails() != null) {
@@ -312,7 +328,7 @@ public class FbiToAmlConverter {
             this.wanted.setDetails(details);
         }
 
-        if (fbiWanted.getRemarks() != null) {
+        if ((fbiWanted.getRemarks() != null) && (!fbiWanted.getRemarks().isBlank())) {
             details = new ArrayList<>();
 
             if (this.wanted.getDetails() != null) {
@@ -326,7 +342,7 @@ public class FbiToAmlConverter {
             this.wanted.setDetails(details);
         }
 
-        if (fbiWanted.getAdditionalInformation() != null) {
+        if ((fbiWanted.getAdditionalInformation() != null) && (!fbiWanted.getAdditionalInformation().isBlank())) {
             details = new ArrayList<>();
 
             if (this.wanted.getDetails() != null) {

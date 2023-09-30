@@ -1,5 +1,7 @@
 package com.fiap.aml.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
@@ -8,8 +10,8 @@ public class Detail {
 
     // Fields
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "detail_seq")
+    @SequenceGenerator(name = "detail_seq", sequenceName = "detail_sequence", allocationSize = 1)
     private int id;
 
     @Column(name="detail_description", columnDefinition="CLOB") //Change to "TEXT" for MySQL

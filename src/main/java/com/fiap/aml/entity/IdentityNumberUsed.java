@@ -1,5 +1,7 @@
 package com.fiap.aml.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
@@ -8,8 +10,8 @@ public class IdentityNumberUsed {
 
     // Fields
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "identity_number_used_seq")
+    @SequenceGenerator(name = "identity_number_used_seq", sequenceName = "identity_number_used_sequence", allocationSize = 1)
     private int id;
 
     @Column(name="number")

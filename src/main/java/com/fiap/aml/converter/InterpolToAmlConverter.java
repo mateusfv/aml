@@ -107,13 +107,6 @@ public class InterpolToAmlConverter {
 
         this.wanted.setDateOfBirth(interpolRedNotice.getDateOfBirth());
 
-        if (interpolRedNotice.getDateOfBirth() != null) {
-            String yearString = interpolRedNotice.getDateOfBirth().substring(0, 4);
-            int yearInt = Integer.parseInt(yearString);
-            Year currentYear = Year.now();
-            this.wanted.setAgeRange(String.valueOf(currentYear.getValue() - yearInt));
-        }
-
         this.wanted.setPlaceOfBirth(interpolRedNotice.getPlaceOfBirth());
 
         if (interpolRedNotice.getCountryOfBirthId() != null) {
@@ -148,7 +141,7 @@ public class InterpolToAmlConverter {
             this.wanted.setLanguagesSpoken(languagesSpoken);
         }
 
-        if (interpolRedNotice.getArrestWarrants() != null) {
+        if ((interpolRedNotice.getArrestWarrants() != null) && (!interpolRedNotice.getArrestWarrants().isEmpty())) {
             charges = new ArrayList<>();
             Charge charge;
             for (InterpolRedNoticeArrestWarrant arrestWarrant : interpolRedNotice.getArrestWarrants()) {

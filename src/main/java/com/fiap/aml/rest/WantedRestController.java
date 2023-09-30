@@ -2,6 +2,8 @@ package com.fiap.aml.rest;
 
 import com.fiap.aml.dao.WantedDAO;
 import com.fiap.aml.entity.Wanted;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +27,10 @@ public class WantedRestController {
     public Wanted findById(@PathVariable int wantedId) {
 
         Wanted theWanted = wantedDAO.findById(wantedId);
+
         if (theWanted == null) {
             throw new RuntimeException("Wanted id not found: " + wantedId);
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
         return theWanted;
     }

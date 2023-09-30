@@ -1,5 +1,7 @@
 package com.fiap.aml.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -12,8 +14,8 @@ public class Wanted {
 
     // Fields
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "wanted_seq")
+    @SequenceGenerator(name = "wanted_seq", sequenceName = "wanted_sequence", allocationSize = 1)
     private int id;
 
     @Column(name="name_title")
@@ -33,9 +35,6 @@ public class Wanted {
 
     @Column(name="date_of_birth")
     private String dateOfBirth;
-
-    @Column(name="age_range")
-    private String ageRange;
 
     @Column(name="place_of_birth")
     private String placeOfBirth;
@@ -76,6 +75,7 @@ public class Wanted {
     @OneToMany(mappedBy = "wanted", cascade = CascadeType.ALL)
     private List<PossibleLocation> possibleLocations;
 
+
     @ManyToMany
     @JoinTable(
             name = "wanted_nationality",
@@ -83,6 +83,7 @@ public class Wanted {
             inverseJoinColumns = @JoinColumn(name = "nationality_id")
     )
     private Set<Nationality> nationalities = new HashSet<>();
+
 
     @ManyToMany
     @JoinTable(
@@ -100,14 +101,13 @@ public class Wanted {
 
     }
 
-    public Wanted(String nameTitle, String sex, String race, String hairColor, String eyeColor, String dateOfBirth, String ageRange, String placeOfBirth, String fbiId, String fbiUrl, String interpolId, String interpolUrl, String ncic, String imagePath, List<Charge> charges, List<DateOfBirthDeclared> datesOfBirthDeclared, List<AlternativeName> alternativeNames, List<Occupation> occupations, List<Detail> details, List<PossibleLocation> possibleLocations, Set<Nationality> nationalities, Set<LanguageSpoken> languagesSpoken, List<IdentityNumberUsed> identityNumbersUsed) {
+    public Wanted(String nameTitle, String sex, String race, String hairColor, String eyeColor, String dateOfBirth, String placeOfBirth, String fbiId, String fbiUrl, String interpolId, String interpolUrl, String ncic, String imagePath, List<Charge> charges, List<DateOfBirthDeclared> datesOfBirthDeclared, List<AlternativeName> alternativeNames, List<Occupation> occupations, List<Detail> details, List<PossibleLocation> possibleLocations, Set<Nationality> nationalities, Set<LanguageSpoken> languagesSpoken, List<IdentityNumberUsed> identityNumbersUsed) {
         this.nameTitle = nameTitle;
         this.sex = sex;
         this.race = race;
         this.hairColor = hairColor;
         this.eyeColor = eyeColor;
         this.dateOfBirth = dateOfBirth;
-        this.ageRange = ageRange;
         this.placeOfBirth = placeOfBirth;
         this.fbiId = fbiId;
         this.fbiUrl = fbiUrl;
@@ -184,15 +184,6 @@ public class Wanted {
     public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
-
-    public String getAgeRange() {
-        return ageRange;
-    }
-
-    public void setAgeRange(String ageRange) {
-        this.ageRange = ageRange;
-    }
-
     public String getPlaceOfBirth() {
         return placeOfBirth;
     }
@@ -333,7 +324,6 @@ public class Wanted {
                 ", hairColor='" + hairColor + '\'' +
                 ", eyeColor='" + eyeColor + '\'' +
                 ", dateOfBirth='" + dateOfBirth + '\'' +
-                ", ageRange='" + ageRange + '\'' +
                 ", placeOfBirth='" + placeOfBirth + '\'' +
                 ", fbiId='" + fbiId + '\'' +
                 ", fbiUrl='" + fbiUrl + '\'' +

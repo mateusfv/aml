@@ -1,5 +1,7 @@
 package com.fiap.aml.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
@@ -8,12 +10,12 @@ public class Occupation {
 
     // Fields
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "occupation_seq")
+    @SequenceGenerator(name = "occupation_seq", sequenceName = "occupation_sequence", allocationSize = 1)
     private int id;
 
-    @Column(name="detail_description", columnDefinition="CLOB") //Change to "TEXT" for MySQL
-    private String detailDescription;
+    @Column(name="description", columnDefinition="CLOB") //Change to "TEXT" for MySQL
+    private String description;
 
     @ManyToOne
     @JoinColumn(name="wanted_id")
@@ -24,8 +26,8 @@ public class Occupation {
 
     }
 
-    public Occupation(String detailDescription, Wanted wanted) {
-        this.detailDescription = detailDescription;
+    public Occupation(String description, Wanted wanted) {
+        this.description = description;
         this.wanted = wanted;
     }
 
@@ -38,12 +40,12 @@ public class Occupation {
         this.id = id;
     }
 
-    public String getDetailDescription() {
-        return detailDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDetailDescription(String detailDescription) {
-        this.detailDescription = detailDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Wanted getWanted() {
@@ -59,7 +61,7 @@ public class Occupation {
     public String toString() {
         return "Occupation{" +
                 "id=" + id +
-                ", detailDescription='" + detailDescription + '\'' +
+                ", description='" + description + '\'' +
                 '}';
     }
 }

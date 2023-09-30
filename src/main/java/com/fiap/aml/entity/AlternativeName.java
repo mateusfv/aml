@@ -1,5 +1,7 @@
 package com.fiap.aml.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
@@ -8,8 +10,8 @@ public class AlternativeName {
 
     // Fields
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "alternative_name_seq")
+    @SequenceGenerator(name = "alternative_name_seq", sequenceName = "alternative_name_sequence", allocationSize = 1)
     private int id;
 
     @Column(name="alias")
