@@ -15,7 +15,7 @@ public class IdentityNumberUsed {
     @SequenceGenerator(name = "identity_number_used_seq", sequenceName = "identity_number_used_sequence", allocationSize = 1)
     private int id;
 
-    @Column(name="number")
+    @Column(name="code")
     private String number;
 
     @Column(name="type")
