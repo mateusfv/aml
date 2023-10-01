@@ -1,53 +1,42 @@
-package com.fiap.aml.entity;
+package com.fiap.aml.dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
+import com.fiap.aml.entity.Nationality;
+import jakarta.persistence.Column;
 
-import java.util.HashSet;
-import java.util.Set;
+public class NationalityDTO {
 
-@Entity
-@Table(name="nationality")
-public class Nationality {
-
-    // Fields
-    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @JsonIgnore
     private int id;
 
-    @Column(name="country")
     private String country;
 
-    @Column(name="code_alpha2")
     private String codeAlpha2;
 
-    @Column(name="code_alpha3")
     private String codeAlpha3;
 
-    @Column(name="gentilic")
     private String gentilic;
 
-    @ManyToMany(mappedBy = "nationalities")
-    private Set<Wanted> wanteds = new HashSet<>();
-
-    // Constructors
-    public Nationality() {
+    public NationalityDTO() {
 
     }
 
-    public Nationality(String country, String codeAlpha2, String codeAlpha3, String gentilic, Set<Wanted> wanteds) {
+    public NationalityDTO(Nationality nationality) {
+        this.id = nationality.getId();
+        this.country = nationality.getCountry();
+        this.codeAlpha2 = nationality.getCodeAlpha2();
+        this.codeAlpha3 = nationality.getCodeAlpha3();
+        this.gentilic = nationality.getGentilic();
+    }
+
+    public NationalityDTO(int id, String country, String codeAlpha2, String codeAlpha3, String gentilic) {
+        this.id = id;
         this.country = country;
         this.codeAlpha2 = codeAlpha2;
         this.codeAlpha3 = codeAlpha3;
         this.gentilic = gentilic;
-        this.wanteds = wanteds;
     }
 
-    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -88,19 +77,9 @@ public class Nationality {
         this.gentilic = gentilic;
     }
 
-    @JsonBackReference
-    public Set<Wanted> getWanteds() {
-        return wanteds;
-    }
-
-    public void setWanteds(Set<Wanted> wanteds) {
-        this.wanteds = wanteds;
-    }
-
-    // toString()
     @Override
     public String toString() {
-        return "Nationality{" +
+        return "NationalityDTO{" +
                 "id=" + id +
                 ", country='" + country + '\'' +
                 ", codeAlpha2='" + codeAlpha2 + '\'' +

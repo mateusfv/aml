@@ -1,39 +1,33 @@
-package com.fiap.aml.entity;
+package com.fiap.aml.dto;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fiap.aml.entity.Charge;
 
-@Entity
-@Table(name="charge")
-public class Charge {
+public class ChargeDTO {
 
-    // Fields
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "charge_seq")
-    @SequenceGenerator(name = "charge_seq", sequenceName = "charge_sequence", allocationSize = 1)
+    @JsonIgnore
     private int id;
 
-    @Column(name="charge_description", columnDefinition="CLOB") //Change to "TEXT" for MySQL
     private String chargeDescription;
 
-    @Column(name="issuing_country")
     private String issuingCountry;
 
-    @ManyToOne
-    @JoinColumn(name="wanted_id")
-    private Wanted wanted;
-
-    // Constructors
-    public Charge() {
+    public ChargeDTO() {
 
     }
 
-    public Charge(String chargeDescription, String issuingCountry, Wanted wanted) {
+    public ChargeDTO(Charge charge) {
+        this.id = charge.getId();
+        this.chargeDescription = charge.getChargeDescription();
+        this.issuingCountry = charge.getIssuingCountry();
+    }
+
+    public ChargeDTO(int id, String chargeDescription, String issuingCountry) {
+        this.id = id;
         this.chargeDescription = chargeDescription;
         this.issuingCountry = issuingCountry;
-        this.wanted = wanted;
     }
 
-    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -58,18 +52,9 @@ public class Charge {
         this.issuingCountry = issuingCountry;
     }
 
-    public Wanted getWanted() {
-        return wanted;
-    }
-
-    public void setWanted(Wanted wanted) {
-        this.wanted = wanted;
-    }
-
-    // toString()
     @Override
     public String toString() {
-        return "Charge{" +
+        return "ChargeDTO{" +
                 "id=" + id +
                 ", chargeDescription='" + chargeDescription + '\'' +
                 ", issuingCountry='" + issuingCountry + '\'' +
