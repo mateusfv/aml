@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fiap.aml.entity.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class WantedDTO {
@@ -54,6 +55,8 @@ public class WantedDTO {
 
     private List<LanguageSpokenDTO> languagesSpoken;
 
+    private HashMap<Integer, String> amlRiskIndex;
+
     // Constructors
     public WantedDTO() {
 
@@ -74,6 +77,7 @@ public class WantedDTO {
         this.interpolUrl = wanted.getInterpolUrl();
         this.ncic = wanted.getNcic();
         this.imagePath = wanted.getImagePath();
+        this.amlRiskIndex = wanted.getAmlRiskIndex();
 
         List<ChargeDTO> chargeDTOs = new ArrayList<>(wanted.getCharges().size());
         this.charges = new ArrayList<>();
@@ -142,7 +146,7 @@ public class WantedDTO {
         this.languagesSpoken.addAll(languageSpokenDTOs);
     }
 
-    public WantedDTO(int id, String nameTitle, String sex, String race, String hairColor, String eyeColor, String dateOfBirth, String placeOfBirth, String fbiId, String fbiUrl, String interpolId, String interpolUrl, String ncic, String imagePath, List<ChargeDTO> charges, List<AlternativeNameDTO> alternativeNames, List<OccupationDTO> occupations, List<DetailDTO> details, List<PossibleLocationDTO> possibleLocations, List<IdentityNumberUsedDTO> identityNumbersUsed, List<NationalityDTO> nationalities, List<LanguageSpokenDTO> languagesSpoken) {
+    public WantedDTO(int id, String nameTitle, String sex, String race, String hairColor, String eyeColor, String dateOfBirth, String placeOfBirth, String fbiId, String fbiUrl, String interpolId, String interpolUrl, String ncic, String imagePath, List<ChargeDTO> charges, List<AlternativeNameDTO> alternativeNames, List<OccupationDTO> occupations, List<DetailDTO> details, List<PossibleLocationDTO> possibleLocations, List<IdentityNumberUsedDTO> identityNumbersUsed, List<NationalityDTO> nationalities, List<LanguageSpokenDTO> languagesSpoken, HashMap<Integer, String> amlRiskIndex) {
         this.id = id;
         this.nameTitle = nameTitle;
         this.sex = sex;
@@ -165,6 +169,7 @@ public class WantedDTO {
         this.identityNumbersUsed = identityNumbersUsed;
         this.nationalities = nationalities;
         this.languagesSpoken = languagesSpoken;
+        this.amlRiskIndex = amlRiskIndex;
     }
 
     // Getters and Setters
@@ -344,7 +349,16 @@ public class WantedDTO {
         this.languagesSpoken = languagesSpoken;
     }
 
+    public HashMap<Integer, String> getAmlRiskIndex() {
+        return amlRiskIndex;
+    }
+
+    public void setAmlRiskIndex(HashMap<Integer, String> amlRiskIndex) {
+        this.amlRiskIndex = amlRiskIndex;
+    }
+
     // toString()
+
     @Override
     public String toString() {
         return "WantedDTO{" +
@@ -370,6 +384,7 @@ public class WantedDTO {
                 ", identityNumbersUsed=" + identityNumbersUsed +
                 ", nationalities=" + nationalities +
                 ", languagesSpoken=" + languagesSpoken +
+                ", amlRiskIndex=" + amlRiskIndex +
                 '}';
     }
 }

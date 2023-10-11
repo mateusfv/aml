@@ -10,6 +10,8 @@ public interface WantedDAO {
 
     Wanted findById(int theId);
 
+    List<Wanted> findByPartialName(String partialName);
+
     Wanted save(Wanted theWanted);
 
     void deleteById(int theId);

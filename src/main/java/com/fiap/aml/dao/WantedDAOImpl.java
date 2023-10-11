@@ -34,6 +34,15 @@ public class WantedDAOImpl implements WantedDAO {
     }
 
     @Override
+    public List<Wanted> findByPartialName(String partialName) {
+
+        TypedQuery<Wanted> query = entityManager.createQuery("SELECT w FROM Wanted w WHERE w.nameTitle LIKE :partialName", Wanted.class);
+        query.setParameter("partialName", "%" + partialName.toUpperCase() + "%");
+        List<Wanted> wanteds = query.getResultList();
+        return wanteds;
+    }
+
+    @Override
     @Transactional
     public Wanted save(Wanted theWanted) {
         Wanted dbWanted = entityManager.merge(theWanted);

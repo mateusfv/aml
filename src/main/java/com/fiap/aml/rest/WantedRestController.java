@@ -20,23 +20,20 @@ public class WantedRestController {
         this.wantedDAO = theWantedDAO;
     }
 
-//    @GetMapping("/wanted")
-//    public List<WantedDTO> findAll() {
-//        List<Wanted> wantedList = wantedDAO.findAll();
-//
-//        if (wantedList.isEmpty()) {
-//            throw new RuntimeException("No entities found");
-//        }
-//
-//        List<WantedDTO> wantedDTOList = new ArrayList<>();
-//        for (Wanted wanted : wantedList) {
-//            wantedDTOList.add(new WantedDTO((wanted)));
-//        }
-//
-//        return wantedDTOList;
-//    }
+    @GetMapping("/wanted/{partialName}")
+    public List<WantedDTO> findByPartialName(@PathVariable String partialName) {
+        List<WantedDTO> wantedDTOs = new ArrayList<>();
+        List<Wanted> wanteds = wantedDAO.findByPartialName(partialName);
+        System.out.println(wanteds);
+        for (Wanted wanted : wanteds) {
+            WantedDTO wantedDTO = new WantedDTO(wanted);
+            wantedDTOs.add(wantedDTO);
+        }
 
-    @GetMapping("/wanted/{wantedId}")
+        return wantedDTOs;
+    }
+
+    @GetMapping("/wanted/id/{wantedId}")
     public WantedDTO findById(@PathVariable int wantedId) {
 
         Wanted theWanted = wantedDAO.findById(wantedId);
@@ -71,4 +68,20 @@ public class WantedRestController {
         wantedDAO.deleteById(wantedId);
         return "Wanted deleted successfully:\n" + tempWanted.toString();
     }
+
+    //    @GetMapping("/wanted")
+//    public List<WantedDTO> findAll() {
+//        List<Wanted> wantedList = wantedDAO.findAll();
+//
+//        if (wantedList.isEmpty()) {
+//            throw new RuntimeException("No entities found");
+//        }
+//
+//        List<WantedDTO> wantedDTOList = new ArrayList<>();
+//        for (Wanted wanted : wantedList) {
+//            wantedDTOList.add(new WantedDTO((wanted)));
+//        }
+//
+//        return wantedDTOList;
+//    }
 }

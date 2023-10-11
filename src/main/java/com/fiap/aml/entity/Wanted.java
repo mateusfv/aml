@@ -1,7 +1,9 @@
 package com.fiap.aml.entity;
 
+import com.fiap.aml.calculator.RiskIndexCalculator;
 import jakarta.persistence.*;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -94,6 +96,9 @@ public class Wanted {
     @OneToMany(mappedBy = "wanted", cascade = CascadeType.ALL)
     private List<IdentityNumberUsed> identityNumbersUsed;
 
+    @Transient
+    private HashMap<Integer, String> amlRiskIndex;
+
     // Constructors
     public Wanted() {
 
@@ -122,11 +127,11 @@ public class Wanted {
         this.nationalities = nationalities;
         this.languagesSpoken = languagesSpoken;
         this.identityNumbersUsed = identityNumbersUsed;
+        RiskIndexCalculator calculator = new RiskIndexCalculator();
+        this.amlRiskIndex = calculator.calculateAmlRisk(this);
     }
 
     // Getters and Setters
-
-
     public int getId() {
         return id;
     }
@@ -310,8 +315,11 @@ public class Wanted {
         this.identityNumbersUsed = identityNumbersUsed;
     }
 
-    // toString()
+    public HashMap<Integer, String> getAmlRiskIndex() {
+        return amlRiskIndex;
+    }
 
+    // toString()
     @Override
     public String toString() {
         return "Wanted{" +
@@ -338,6 +346,7 @@ public class Wanted {
                 ", nationalities=" + nationalities +
                 ", languagesSpoken=" + languagesSpoken +
                 ", identityNumbersUsed=" + identityNumbersUsed +
+                ", amlRiskIndex=" + amlRiskIndex +
                 '}';
     }
 }
